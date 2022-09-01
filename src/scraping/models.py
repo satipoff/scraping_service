@@ -40,3 +40,12 @@ class Language(models.Model):
             self.slug = slugify(str(self.name))
 
         super().save(*args, **kwargs)
+
+
+class Vacancy(models.Model):
+    url = models.URLField()
+    title = models.CharField(max_length=250, verbose_name="")
+    company = models.CharField(max_length=250, verbose_name="")
+    description = models.TextField(verbose_name="")
+    city = models.ForeignKey('city', on_delete=models.CASCADE, verbose_name="")
+    language = models.ForeignKey('language', on_delete=models.CASCADE, verbose_name="")
