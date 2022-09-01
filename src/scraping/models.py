@@ -43,9 +43,17 @@ class Language(models.Model):
 
 
 class Vacancy(models.Model):
-    url = models.URLField()
-    title = models.CharField(max_length=250, verbose_name="")
-    company = models.CharField(max_length=250, verbose_name="")
-    description = models.TextField(verbose_name="")
-    city = models.ForeignKey('city', on_delete=models.CASCADE, verbose_name="")
-    language = models.ForeignKey('language', on_delete=models.CASCADE, verbose_name="")
+    url = models.URLField(unique=True)
+    title = models.CharField(max_length=250, verbose_name="Vakansiya sarlavqasi")
+    company = models.CharField(max_length=250, verbose_name="Kampaniya")
+    description = models.TextField(verbose_name="Vakansiya tavsifi")
+    city = models.ForeignKey('city', on_delete=models.CASCADE, verbose_name="Shahar")
+    language = models.ForeignKey('language', on_delete=models.CASCADE, verbose_name="Dasturlash tili")
+    timestamp = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Vakansiya'
+        verbose_name_plural = 'Vakansiyalar'
+
+    def __str__(self):
+        return self.title
