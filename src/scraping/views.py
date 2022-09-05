@@ -1,12 +1,13 @@
 import datetime
 from django.shortcuts import render
+
+from .forms import FindForm
 from .models import Vacancy
 
 
 def home_page(request):
-    date = datetime.datetime.now().date()
-    user = 'Akbar'
 
+    form = FindForm()
     city = request.GET.get('city')
     language = request.GET.get('language')
     qs = []
@@ -14,12 +15,12 @@ def home_page(request):
     if city or language:
         _filter = {}
         if city:
-            _filter['city__name'] = city
+            _filter['city__slug'] = city
         if language:
-            _filter['language__name'] = language
+            _filter['language__slug'] = language
 
         qs = Vacancy.objects.filter(**_filter)
 
-    _context = {'date': date, 'user': user, 'object_list': qs}
+    _context = {'object_list': qs, 'form': form}
 
     return render(request, 'scraping/home.html', _context)
